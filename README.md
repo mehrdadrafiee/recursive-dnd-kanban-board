@@ -7,4 +7,6 @@ This repository provides an example of how to build an accessible Kanban board u
 - Tailwind
 - Shadcn/ui
 
+This Project is heavily inspired by [react-dnd-kit-tailwind-shadcn-ui](https://github.com/georgegriff/react-dnd-kit-tailwind-shadcn-ui).
+
 Demo: https://recursive-dnd-kanban-board.vercel.app
