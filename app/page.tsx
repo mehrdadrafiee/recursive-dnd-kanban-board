@@ -17,7 +17,7 @@ const FooterLink = ({ children }: { children: React.ReactNode }) => {
 function App() {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="flex justify-around w-full flex-row p-4">
+      <header className="flex justify-around w-full flex-row p-4 items-center">
         <Button variant="link" asChild className="text-primary h-8 w-8 p-0">
           <a href="https://github.com/mehrdadrafiee/recursive-dnd-kanban-board">
             <GitHubLogoIcon className="fill-current h-full w-full" />
@@ -36,7 +36,7 @@ function App() {
       </main>
       <footer className="mt-6 flex flex-col items-center gap-6">
         <p className="leading-7 [&:not(:first-child)]:mt-6">
-          Heavily inspired by <Link className="underline text-blue-500" href="https://github.com/Georgegriff/react-dnd-kit-tailwind-shadcn-ui">react-dnd-kit-tailwind-shadcn-ui</Link>.
+          Heavily inspired by <Link className="underline text-blue-500" href="https://github.com/Georgegriff/react-dnd-kit-tailwind-shadcn-ui">react-dnd-kit-tailwind-shadcn-ui</Link>.✨
         </p>
         <ul className="flex items-center justify-center">
           <li>
