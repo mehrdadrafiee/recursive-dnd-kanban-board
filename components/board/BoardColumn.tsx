@@ -14,7 +14,7 @@ export interface Column {
 
 export type ColumnType = "Column";
 
-export interface ColumnDragData {
+export type ColumnDragData = {
   type: ColumnType;
   column: Column;
 }
@@ -66,19 +66,19 @@ export const BoardColumn = ({ column, tasks, isOverlay }: BoardColumnProps) => {
       className={variants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}>
-      <CardHeader className="p-4 font-semibold border-b-2 bg-gray-100">
+      <CardHeader className="p-4 font-semibold border-b-2 bg-gray-100 dark:bg-zinc-800">
         <h1>{column.title}</h1>
       </CardHeader>
       <ScrollArea>
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
           <SortableContext items={tasksIds}>
             {tasks.length === 0 ? (
-                <div className="flex flex-grow items-center justify-center">
-                  <p className="text-gray-400">No cars here.</p>
-                </div>
-              ) : (
-                tasks.map((task) => <TaskCard key={task.id} task={task} />)
-              )}
+              <div className="flex flex-grow items-center justify-center">
+                <p className="text-gray-400">No cars here.</p>
+              </div>
+            ) : (
+              tasks.map((task) => <TaskCard key={task.id} task={task} />)
+            )}
           </SortableContext>
         </CardContent>
       </ScrollArea>
