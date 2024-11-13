@@ -6,6 +6,7 @@ import { Task, TaskCard } from "./TaskCard";
 import { cva } from "class-variance-authority";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Badge } from "../ui/badge";
 
 export interface Column {
   id: UniqueIdentifier;
@@ -66,8 +67,9 @@ export const BoardColumn = ({ column, tasks, isOverlay }: BoardColumnProps) => {
       className={variants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}>
-      <CardHeader className="p-4 font-semibold border-b-2 bg-gray-100 dark:bg-zinc-800">
+      <CardHeader className="p-4 font-semibold border-b-2 bg-gray-100 dark:bg-zinc-800 flex flex-row items-center justify-between">
         <h1>{column.title}</h1>
+        <Badge variant="outline">{tasks.length}</Badge>
       </CardHeader>
       <ScrollArea>
         <CardContent className="flex flex-grow flex-col gap-2 p-2">
