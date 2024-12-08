@@ -107,6 +107,11 @@ const initialTasks: Task[] = [
     content: "Nissan",
   },
   {
+    id: "tesla",
+    columnId: "american-cars",
+    content: "Tesla",
+  },
+  {
     id: "chevrolet",
     columnId: "american-cars",
     content: "Chevrolet",
