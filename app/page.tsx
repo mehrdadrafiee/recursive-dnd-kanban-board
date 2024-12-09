@@ -31,12 +31,10 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="flex justify-around w-full p-4 items-center font-mono">
-        <div>
-          <Button variant="link" asChild className="text-primary h-16 w-16">
-            <a href="https://github.com/mehrdadrafiee">@mehrdadrafiee</a>
-          </Button>
-        </div>
+      <header className="flex justify-around p-4 items-center font-mono w-full">
+        <Button variant="link" asChild>
+          <a href="https://github.com/mehrdadrafiee">@mehrdadrafiee</a>
+        </Button>
         <div className="flex items-center justify-end gap-2">
           <ThemeToggle />
           <Button variant="outline" asChild>
@@ -49,7 +47,7 @@ function App() {
           </Button>
         </div>
       </header>
-      <main className="mx-4 flex flex-col items-center gap-6 h-[70vh]">
+      <main className="flex flex-col items-center gap-6 h-[70vh]">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
           Recursively Generated Drag and Drop Kanban Board
         </h1>
