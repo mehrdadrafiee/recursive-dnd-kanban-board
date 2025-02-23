@@ -17,9 +17,9 @@ import {
   DataRef,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
-import { type Task, TaskCard, TaskDragData } from "./TaskCard";
-import { type Column, BoardColumn, BoardContainer, ColumnDragData } from "./BoardColumn";
+import { Column, BoardColumn, BoardContainer, ColumnDragData } from "./BoardColumn";
 import { coordinateGetter } from "./multipleContainersKeyboardPreset";
+import { Car, CarCard, CarDragData } from "./CarCard";
 
 type NestedColumn = Column & {
   children?: NestedColumn[];
@@ -55,7 +55,7 @@ const defaultCols: NestedColumn[] = [
 
 export type ColumnId = (typeof defaultCols)[number]["id"];
 
-const initialTasks: Task[] = [
+const initialCars: Car[] = [
   {
     id: "mb",
     columnId: "german-cars",
@@ -129,11 +129,10 @@ const initialTasks: Task[] = [
 ];
 
 export function KanbanBoard() {
-  const [columns, setColumns] = useState<Column[]>(defaultCols);
-  const pickedUpTaskColumn = useRef<ColumnId | null>(null);
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const [columns, setColumns] = useState<NestedColumn[]>(defaultCols);
+  const [cars, setCars] = useState<Car[]>(initialCars);
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
-  const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [activeCar, setActiveCar] = useState<Car | null>(null);
   const dndContextId = useId();
 
   const sensors = useSensors(
@@ -147,7 +146,7 @@ export function KanbanBoard() {
   const hasDraggableData = <T extends Active | Over>(
     entry: T | null | undefined
   ): entry is T & {
-    data: DataRef<TaskDragData | ColumnDragData>;
+    data: DataRef<CarDragData | ColumnDragData>;
   } => {
     if (!entry) {
       return false;
@@ -155,7 +154,7 @@ export function KanbanBoard() {
 
     const data = entry.data.current;
 
-    if (data?.type === "Column" || data?.type === "Task") {
+    if (data?.type === "Column" || data?.type === "Car") {
       return true;
     }
 
@@ -175,21 +174,19 @@ export function KanbanBoard() {
   // recursively render nested columns
   const renderNestedColumns = (cols: NestedColumn[]) => {
     return cols.map((col) => {
-      const tasksInColumn = tasks.filter((task) => task.columnId === col.id);
+      const carsInColumn = cars.filter((car) => car.columnId === col.id);
 
       if (col.children && col.children.length > 0) {
-        // If the column has children, only render it if it has tasks directly assigned
         return (
           <div key={col.id} className="flex flex-col">
-            {tasksInColumn.length > 0 && <BoardColumn column={col} tasks={tasksInColumn} />}
-            <div className={tasksInColumn.length > 0 ? "ml-4 mt-2" : ""}>
+            {carsInColumn.length > 0 && <BoardColumn column={col} cars={carsInColumn} />}
+            <div className={carsInColumn.length > 0 ? "ml-4 mt-2" : ""}>
               {renderNestedColumns(col.children)}
             </div>
           </div>
         );
       } else {
-        // If it's a leaf node, always render it
-        return <BoardColumn key={col.id} column={col} tasks={tasksInColumn} />;
+        return <BoardColumn key={col.id} column={col} cars={carsInColumn} />;
       }
     });
   };
@@ -202,15 +199,15 @@ export function KanbanBoard() {
       return;
     }
 
-    if (data?.type === "Task") {
-      setActiveTask(data.task);
+    if (data?.type === "Car") {
+      setActiveCar(data.car);
       return;
     }
   };
 
   const onDragEnd = async (event: DragEndEvent) => {
     setActiveColumn(null);
-    setActiveTask(null);
+    setActiveCar(null);
 
     const { active, over } = event;
     if (!over) return;
@@ -231,21 +228,19 @@ export function KanbanBoard() {
         const overColumnIndex = columns.findIndex((col) => col.id === overId);
         return arrayMove(columns, activeColumnIndex, overColumnIndex);
       });
-    } else if (activeData?.type === "Task") {
-      // Handle task movement
+    } else if (activeData?.type === "Car") {
       const newColumnId = hasDraggableData(over)
         ? over.data.current?.type === "Column"
-          ? (over.id as ColumnId)
-          : (over.data.current as TaskDragData).task.columnId
-        : (over.id as ColumnId);
+          ? over.id as ColumnId
+          : over.data.current?.car.columnId
+        : over.id as ColumnId;
 
-      const oldColumnId = activeData.task.columnId;
+      const oldColumnId = activeData.car.columnId;
 
       if (oldColumnId !== newColumnId) {
-        // Update the task's columnId in the local state
-        setTasks((tasks) => {
-          return tasks.map((task) =>
-            task.id === activeId ? { ...task, columnId: newColumnId } : task
+        setCars((cars) => {
+          return cars.map((car) =>
+            car.id === activeId && newColumnId ? { ...car, columnId: newColumnId } : car
           );
         });
       }
@@ -266,39 +261,37 @@ export function KanbanBoard() {
     const activeData = active.data.current;
     const overData = over.data.current;
 
-    const isActiveATask = activeData?.type === "Task";
-    const isOverATask = overData?.type === "Task";
+    const isActiveACar = activeData?.type === "Car";
+    const isOverACar = overData?.type === "Car";
 
-    if (!isActiveATask) return;
+    if (!isActiveACar) return;
 
-    // Im dropping a Task over another Task
-    if (isActiveATask && isOverATask) {
-      setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
-        const overIndex = tasks.findIndex((t) => t.id === overId);
-        const activeTask = tasks[activeIndex];
-        const overTask = tasks[overIndex];
-        if (activeTask && overTask && activeTask.columnId !== overTask.columnId) {
-          activeTask.columnId = overTask.columnId;
-          return arrayMove(tasks, activeIndex, overIndex - 1);
+    if (isActiveACar && isOverACar) {
+      setCars((cars) => {
+        const activeIndex = cars.findIndex((car) => car.id === activeId);
+        const overIndex = cars.findIndex((car) => car.id === overId);
+        const activeCar = cars[activeIndex];
+        const overCar = cars[overIndex];
+        if (activeCar && overCar && activeCar.columnId !== overCar.columnId) {
+          activeCar.columnId = overCar.columnId;
+          return arrayMove(cars, activeIndex, overIndex - 1);
         }
 
-        return arrayMove(tasks, activeIndex, overIndex);
+        return arrayMove(cars, activeIndex, overIndex);
       });
     }
 
     const isOverAColumn = overData?.type === "Column";
 
-    // Im dropping a Task over a column
-    if (isActiveATask && isOverAColumn) {
-      setTasks((tasks) => {
-        const activeIndex = tasks.findIndex((t) => t.id === activeId);
-        const activeTask = tasks[activeIndex];
-        if (activeTask) {
-          activeTask.columnId = overId as ColumnId;
-          return arrayMove(tasks, activeIndex, activeIndex);
+    if (isActiveACar && isOverAColumn) {
+      setCars((cars) => {
+        const activeIndex = cars.findIndex((car) => car.id === activeId);
+        const activeCar = cars[activeIndex];
+        if (activeCar) {
+          activeCar.columnId = overId as ColumnId;
+          return arrayMove(cars, activeIndex, activeIndex);
         }
-        return tasks;
+        return cars;
       });
     }
   };
@@ -321,14 +314,12 @@ export function KanbanBoard() {
           <DragOverlay>
             {activeColumn && (
               <BoardColumn
-                isOverlay
                 column={activeColumn}
-                tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id
-                )}
+                cars={cars.filter((car) => car.columnId === activeColumn.id)}
+                isOverlay
               />
             )}
-            {activeTask && <TaskCard task={activeTask} isOverlay />}
+            {activeCar && <CarCard car={activeCar} isOverlay />}
           </DragOverlay>,
           document.body
         )}

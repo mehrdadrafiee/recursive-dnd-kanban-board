@@ -1,4 +1,4 @@
-# recursive-dnd-kanban-board Example
+# Recursive dnd-kit Kanban Board Example
 
 This repository provides an example of how to build a recursively generated Kanban board using the following technologies:
 

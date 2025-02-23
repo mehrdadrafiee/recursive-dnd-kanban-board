@@ -7,33 +7,33 @@ import { cva } from "class-variance-authority";
 import { GripVertical } from "lucide-react";
 import { ColumnId } from "./KanbanBoard";
 
-export type Task = {
+export type Car = {
   id: UniqueIdentifier;
   columnId: ColumnId;
   content: string;
 }
 
-type TaskCardProps = {
-  task: Task;
+type CarCardProps = {
+  car: Car;
   isOverlay?: boolean;
 }
 
-export type TaskType = "Task";
+export type CarType = "Car";
 
-export type TaskDragData = {
-  type: TaskType;
-  task: Task;
+export type CarDragData = {
+  type: CarType;
+  car: Car;
 }
 
-export function TaskCard({ task, isOverlay }: TaskCardProps) {
+export function CarCard({ car, isOverlay }: CarCardProps) {
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
-    id: task.id,
+    id: car.id,
     data: {
-      type: "Task",
-      task,
-    } satisfies TaskDragData,
+      type: "Car",
+      car,
+    } satisfies CarDragData,
     attributes: {
-      roleDescription: "Task",
+      roleDescription: "Car",
     },
   });
 
@@ -64,10 +64,10 @@ export function TaskCard({ task, isOverlay }: TaskCardProps) {
           {...attributes}
           {...listeners}
           className="p-1 text-secondary-foreground/50 -ml-2 h-auto cursor-grab">
-          <span className="sr-only">Move task</span>
+          <span className="sr-only">Move car</span>
           <GripVertical />
         </Button>
-        {task.content}
+        {car.content}
       </CardContent>
     </Card>
   );
