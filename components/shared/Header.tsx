@@ -3,8 +3,8 @@
 import React from "react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { ArrowUpRightIcon, StarIcon } from "lucide-react";
-import { Button } from "./ui/button";
-import { ThemeToggle } from "./ThemeToggle";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function Header() {
   const [starsCount, setStarsCount] = React.useState(0);
