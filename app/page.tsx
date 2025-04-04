@@ -1,8 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { KanbanBoard } from "@/components/board/KanbanBoard";
-import Link from "next/link";
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
