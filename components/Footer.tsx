@@ -30,7 +30,7 @@ export default function Footer() {
         {footerLinks.map((link) => (
           <li key={link.href}>
             <Button variant="link" asChild className="scroll-m-20 text-xl font-semibold tracking-tight">
-              <a href={link.href}>{link.label}</a>
+              <Link target="_blank" href={link.href}>{link.label}</Link>
             </Button>
           </li>
         ))}
