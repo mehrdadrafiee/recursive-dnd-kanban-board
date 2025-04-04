@@ -16,7 +16,7 @@ const FooterLink = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-function App() {
+export default function App() {
   const [starsCount, setStarsCount] = React.useState(0);
 
   const fetchStarsCount = async () => {
@@ -83,5 +83,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
