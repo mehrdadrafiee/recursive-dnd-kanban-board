@@ -11,7 +11,7 @@ export function ThemeToggle() {
 
   return (
     <Button className="cursor-pointer" variant="outline" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-      {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+      {theme === "dark" ? <SunIcon size={16} /> : <MoonIcon size={16} />}
       <span className="sr-only">Toggle theme</span>
     </Button>
   )
