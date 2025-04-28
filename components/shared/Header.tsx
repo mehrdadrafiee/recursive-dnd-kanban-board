@@ -12,7 +12,7 @@ export default function Header() {
   const fetchStarsCount = async () => {
     const res = await fetch("https://api.github.com/repos/mehrdadrafiee/recursive-dnd-kanban-board");
     const data = await res.json();
-    setStarsCount(data.stargazers_count);
+    setStarsCount(data.stargazers_count || 0);
   };
 
   React.useEffect(() => {
