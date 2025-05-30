@@ -45,8 +45,8 @@ export function CarCard({ car, isOverlay }: CarCardProps) {
   const variants = cva("", {
     variants: {
       dragging: {
-        over: "ring-2 opacity-30",
-        overlay: "ring-2 ring-primary",
+        over: "ring-2 ring-primary opacity-50 scale-105 transition-all duration-200",
+        overlay: "ring-2 ring-primary shadow-lg scale-105",
       },
     },
   });
@@ -55,15 +55,15 @@ export function CarCard({ car, isOverlay }: CarCardProps) {
     <Card
       ref={setNodeRef}
       style={style}
-      className={variants({
+      className={`${variants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
-      })}>
+      })} transition-all duration-200 hover:shadow-md`}>
       <CardContent className="p-4 flex items-center align-middle text-left whitespace-pre-wrap">
         <Button
           variant="ghost"
           {...attributes}
           {...listeners}
-          className="p-1 text-secondary-foreground/50 -ml-2 h-auto cursor-grab">
+          className="p-1 text-secondary-foreground/50 -ml-2 h-auto cursor-grab hover:text-secondary-foreground/80 transition-colors">
           <span className="sr-only">Move car</span>
           <GripVertical />
         </Button>

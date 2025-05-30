@@ -243,6 +243,12 @@ export function KanbanBoard() {
             car.id === activeId && newColumnId ? { ...car, columnId: newColumnId } : car
           );
         });
+      } else {
+        setCars((cars) => {
+          const oldIndex = cars.findIndex((car) => car.id === activeId);
+          const newIndex = cars.findIndex((car) => car.id === overId);
+          return arrayMove(cars, oldIndex, newIndex);
+        });
       }
     }
   };
