@@ -48,7 +48,7 @@ export const BoardColumn = ({ column, cars, isOverlay }: BoardColumnProps) => {
   };
 
   const variants = cva(
-    "h-full w-[300px] bg-primary-foreground flex flex-col flex-shrink-0 snap-center mt-4 overflow-y-auto",
+    "h-full w-[300px] bg-primary-foreground flex flex-col shrink-0 snap-center mt-4 overflow-y-auto",
     {
       variants: {
         dragging: {
@@ -72,10 +72,10 @@ export const BoardColumn = ({ column, cars, isOverlay }: BoardColumnProps) => {
         <Badge variant="outline">{cars.length}</Badge>
       </CardHeader>
       <ScrollArea>
-        <CardContent className="flex flex-grow flex-col gap-2 p-2">
+        <CardContent className="flex grow flex-col gap-2 p-2">
           <SortableContext items={carIds}>
             {cars.length === 0 ? (
-              <div className="flex flex-grow items-center justify-center">
+              <div className="flex grow items-center justify-center">
                 <p className="text-gray-400">No cars here.</p>
               </div>
             ) : (

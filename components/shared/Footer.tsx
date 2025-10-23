@@ -23,7 +23,7 @@ const footerLinks = [
 export default function Footer() {
   return (
     <footer className="mt-6 flex flex-col items-center gap-6">
-      <p className="leading-7 [&:not(:first-child)]:mt-6">
+      <p className="leading-7 not-first:mt-6">
         Heavily inspired by <Link className="underline text-blue-500" href="https://github.com/Georgegriff/react-dnd-kit-tailwind-shadcn-ui">react-dnd-kit-tailwind-shadcn-ui</Link>.✨
       </p>
       <ul className="flex items-center justify-center">
