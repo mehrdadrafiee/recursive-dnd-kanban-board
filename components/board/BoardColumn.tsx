@@ -1,6 +1,5 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { useDndContext, type UniqueIdentifier } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 import { useMemo } from "react";
 import { cva } from "class-variance-authority";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -44,7 +43,7 @@ export const BoardColumn = ({ column, cars, isOverlay }: BoardColumnProps) => {
 
   const style = {
     transition,
-    transform: CSS.Translate.toString(transform)
+    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined
   };
 
   const variants = cva(

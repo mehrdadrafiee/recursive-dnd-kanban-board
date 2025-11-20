@@ -1,6 +1,5 @@
 import type { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cva } from "class-variance-authority";
@@ -39,7 +38,7 @@ export function CarCard({ car, isOverlay }: CarCardProps) {
 
   const style = {
     transition,
-    transform: CSS.Translate.toString(transform),
+    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined
   };
 
   const variants = cva("", {
